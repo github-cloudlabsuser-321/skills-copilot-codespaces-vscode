@@ -1,0 +1,25 @@
+name: Email daily report
+
+on:
+  schedule:
+    - cron:  '0 6 * * *'
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Send mail
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: Daily report
+        body: Read the attached report for today's data.
+        to: recipient@example.com
+        from: Your Name <your-email@example.com>
+        attachments: report.txt
